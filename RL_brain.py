@@ -40,7 +40,7 @@ class QLearningTable:
             
         self.q_table.loc[s, a] += self.lr * (q_target - q_predict)  # update
         if s_ == 'terminal':
-            q_table.to_pickle('./models/model.pkl')
+            self.q_table.to_pickle('./models/model.pkl')
 
     def check_state_exist(self, state):
         if state not in self.q_table.index:
