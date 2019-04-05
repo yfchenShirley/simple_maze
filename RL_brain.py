@@ -15,7 +15,7 @@ class QLearningTable:
         self.lr = learning_rate
         self.gamma = reward_decay
         self.epsilon = e_greedy
-        self.q_table = pd.read_pickle('./models/model.pkl')#pd.DataFrame(columns=self.actions, dtype=np.float64)#
+        self.q_table = pd.DataFrame(columns=self.actions, dtype=np.float64)#pd.read_pickle('./models/model.pkl')#
 
     def choose_action(self, observation):
         self.check_state_exist(observation)

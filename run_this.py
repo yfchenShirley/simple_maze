@@ -15,9 +15,16 @@ View more on my tutorial page: https://morvanzhou.github.io/tutorials/
 from maze_env import Maze
 from RL_brain import QLearningTable
 
+import matplotlib
+import matplotlib.pyplot as plt
+import numpy as np
+
+EPIS = 300
 
 def update():
-    for episode in range(1000):
+    for episode in range(EPIS):
+        global plot_y
+        plot_y.clear()
         # initial observation
         observation = env.reset()
         reward_total = 0
@@ -42,8 +49,9 @@ def update():
 
             # break while loop when end of this episode
             if done:
+                plot_y.append(reward_total)
                 print(f"Episode {episode}:")
-                print(f"Total rewards: {reward_total}")
+                print(f"Total rewards(lr={lr_test}): {reward_total}")
                 break
 
     # end of game
@@ -51,8 +59,21 @@ def update():
     env.destroy()
 
 if __name__ == "__main__":
-    env = Maze()
-    RL = QLearningTable(actions=list(range(env.n_actions)))
+    plot_y = list(range(EPIS))
+    fig, ax = plt.subplots()
+    # Data for plotting
+    ax.set(xlabel='episode (s)', ylabel='Total Rewards',
+           title='Total rewards at each episode')
+    ax.grid()
 
-    env.after(100, update)
-    env.mainloop()
+    for lr_test in [0.09, 0.1, 0.3, 0.5]:#, 0.03, 0.05, 0.07, 0.09, 0.3, 0.5
+        env = Maze()
+        RL = QLearningTable(actions=list(range(env.n_actions)), learning_rate=lr_test)
+
+        env.after(100, update)
+        env.mainloop()
+        ax.plot(range(EPIS), plot_y, label='lr='+str(lr_test))
+
+    legend = ax.legend(loc='lower right', shadow=True, fontsize='x-large')    
+    fig.savefig("lr.png")
+    plt.show()
