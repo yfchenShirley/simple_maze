@@ -19,7 +19,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 
-EPIS = 3
+EPIS = 200
 
 def update():
     global plot_y
@@ -52,7 +52,7 @@ def update():
             if done:
                 plot_y.append(reward_total)
                 print(f"Episode {episode}:")
-                print(f"Total rewards(lr={lr_test}): {reward_total}")
+                print(f"Total rewards(lr={e_test}): {reward_total}")
                 break
 
     # end of game
@@ -67,14 +67,14 @@ if __name__ == "__main__":
            title='Total rewards at each episode')
     ax.grid()
 
-    for lr_test in [0.09, 0.1]:#, 0.3, 0.5
+    for e_test in [0.8, 0.85, 0.9, 0.95]:#
         env = Maze()
-        RL = QLearningTable(actions=list(range(env.n_actions)), learning_rate=lr_test)
+        RL = QLearningTable(actions=list(range(env.n_actions)), learning_rate=0.5, e_greedy=e_test)
 
         env.after(100, update)
         env.mainloop()
-        ax.plot(range(EPIS), plot_y, label='lr='+str(lr_test))
+        ax.plot(range(EPIS), plot_y, label='lr='+str(e_test))
 
     legend = ax.legend(loc='lower right', shadow=True, fontsize='x-large')    
-    fig.savefig("lr.png")
+    fig.savefig("e-greedy.png")
     plt.show()
