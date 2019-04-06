@@ -19,12 +19,13 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 
-EPIS = 300
+EPIS = 3
 
 def update():
-    for episode in range(EPIS):
-        global plot_y
+	global plot_y
         plot_y.clear()
+
+    for episode in range(EPIS):       
         # initial observation
         observation = env.reset()
         reward_total = 0
@@ -66,7 +67,7 @@ if __name__ == "__main__":
            title='Total rewards at each episode')
     ax.grid()
 
-    for lr_test in [0.09, 0.1, 0.3, 0.5]:#, 0.03, 0.05, 0.07, 0.09, 0.3, 0.5
+    for lr_test in [0.09, 0.1]:#, 0.3, 0.5
         env = Maze()
         RL = QLearningTable(actions=list(range(env.n_actions)), learning_rate=lr_test)
 
