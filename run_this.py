@@ -22,8 +22,8 @@ import numpy as np
 EPIS = 3
 
 def update():
-	global plot_y
-        plot_y.clear()
+    global plot_y
+    plot_y.clear()
 
     for episode in range(EPIS):       
         # initial observation
